@@ -1,0 +1,8 @@
+- name: emacs server scripts
+  copy: src="bin/{{ item }}" dest="{{ DIR_BIN }}/{{ item }}" mode="0700"
+  with_items:
+    - emacs-server-start
+    - emacs-server-stop
+
+- name: emacs shell script
+  copy: src=emacs.sh dest={{ DIR_SHRCD }}/emacs.sh mode="0700"

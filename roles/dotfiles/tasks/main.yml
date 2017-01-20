@@ -1,0 +1,29 @@
+- stat: path="{{ DIR_DOTFILES }}"
+  register: dir_dotfiles
+
+- name: backup existing dotfiles dir
+  command: "mv {{ DIR_DOTFILES }} /tmp/dotfiles.{{ ansible_date_time.epoch }}"
+  when: dir_dotfiles.stat.exists
+
+- name: remove symlinks
+  file: path="$HOME/{{ item }}" state=absent
+  with_items:
+    - ".emacs.d"
+    - ".gitconfig"
+    - ".tmux.conf"
+    - ".zshrc"
+
+- name: get dotfiles
+  git: repo="{{ URL_DOTFILES }}" dest="{{ DIR_DOTFILES }}" key_file="{{ KEY_GITHUB }}" accept_hostkey=yes
+
+- name: create .emacs.d symlink"
+  file: src="{{ DIR_DOTFILES }}/emacs.d" dest="$HOME/.emacs.d" state=link
+
+- name: create .gitconfig symlink"
+  file: src="{{ DIR_DOTFILES }}/git/gitconfig" dest="$HOME/.gitconfig" state=link
+
+- name: create .tmux symlink"
+  file: src="{{ DIR_DOTFILES }}/tmux/tmux.conf" dest="$HOME/.tmux.conf" state=link
+
+- name: deploy .zshrc
+  file: src="{{ DIR_DOTFILES }}/oh-my-zsh/zshrc" dest="$HOME/.zshrc" state=link

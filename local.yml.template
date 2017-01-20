@@ -1,0 +1,15 @@
+- name: setup mothership
+  hosts: 127.0.0.1
+  connection: local
+  become: true
+  become_user: ???
+  vars:
+   - KEY_GITHUB: "$HOME/.ssh/id_rsa"
+   - DIR_BIN: "$HOME/bin"
+   - DIR_SRC: "$HOME/src"
+   - DIR_LOG: "$HOME/log"
+   - DIR_SHRCD: "$HOME/.shrc.d"
+  roles:
+    - base
+    - dotfiles
+    - emacs-config

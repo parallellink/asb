@@ -1,0 +1,7 @@
+- name: make sure DIR_BIN exists
+  file: path="{{ item }}" state=directory mode="0755"
+  with_items:
+    - "{{ DIR_BIN }}"
+    - "{{ DIR_SRC }}"
+    - "{{ DIR_LOG }}"
+    - "{{ DIR_SHRCD }}"
