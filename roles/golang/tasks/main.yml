@@ -1,0 +1,13 @@
+- name: golang shell setting
+  template: src=golang.sh.j2 dest="{{ DIR_SHRCD }}/golang.sh" mode="0700"
+
+- name: install golang tools
+  raw: "GOPATH=$HOME go get -u {{ item }}"
+  with_items:
+    - github.com/golang/lint/golint
+    - golang.org/x/tools/cmd/goimports
+    - github.com/rogpeppe/godef
+    - github.com/nsf/gocode
+    - golang.org/x/tools/cmd/gorename
+    - golang.org/x/tools/cmd/godoc
+    - golang.org/x/tools/cmd/guru
